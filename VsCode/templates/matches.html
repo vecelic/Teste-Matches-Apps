@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .matches-header {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .match-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .match-item {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+        .match-item h3 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+        }
+        .match-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="matches-header">
+            <h1>Matches Encontrados</h1>
+        </div>
+
+        {% if quantidade_comum > 0 %}
+            <p><strong>{{ quantidade_comum }}</strong> gostos em comum!</p>
+            <div class="match-list">
+                {% for tipo, gosto in gostos_comum %}
+                    <div class="match-item">
+                        <h3>{{ tipo }}</h3>
+                        <p>{{ gosto }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Não há gostos em comum entre os usuários.</p>
+        {% endif %}
+
+        <form action="{{ url_for('index') }}" method="GET">
+            <button class="back-button" type="submit">Voltar ao Início</button>
+        </form>
+    </div>
+</body>
+</html>

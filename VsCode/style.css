@@ -1,0 +1,116 @@
+/* Estilo geral para o body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8; /* Cor de fundo mais suave */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #333; /* Cor do texto */
+}
+
+/* Estilo para os títulos */
+h1, h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+/* Estilos para os formulários */
+form {
+    margin-top: 20px;
+}
+
+/* Estilo para inputs, selects e buttons */
+input, select, button {
+    padding: 12px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+/* Botões */
+button {
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    max-width: 200px;
+    padding: 12px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para inputs de texto */
+input[type="text"], input[type="email"], input[type="number"] {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Estilo para a seção de matches */
+.match-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.match-item {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+}
+
+.match-item h3 {
+    margin: 10px 0;
+    font-size: 1.5rem;
+}
+
+.match-item p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Estilo da página de cadastro */
+.cadastro-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+/* Estilo da página de adicionar gostos */
+.gostos-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.gostos-container input {
+    width: calc(50% - 12px); /* Divisão para dois inputs por linha */
+}
+
+/* Estilo do botão de voltar */
+.back-button {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}

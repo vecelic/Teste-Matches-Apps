@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Gostos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar seus Gostos</h1>
+        <p>Preencha pelo menos 3 gostos para seguir para os matches!</p>
+        <form action="/adicionar_gostos/{{ usuario_id }}" method="POST">
+            <input type="text" name="tipo" placeholder="Tipo de Gosto (Ex: Música, Filme)" required><br>
+            <input type="text" name="gosto" placeholder="Seu Gosto (Ex: Rock, Ação)" required><br>
+            <button type="submit">Adicionar Gosto</button>
+        </form>
+
+        <a href="/matches">Ir para Matches</a>
+    </div>
+</body>
+</html>

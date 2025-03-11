@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Gostos</title>
+</head>
+<body>
+    <h1>Adicionar Gostos</h1>
+    <form method="POST">
+        <label for="tipo">Tipo de Gosto:</label>
+        <select name="tipo">
+            <option value="filme">Filme</option>
+            <option value="livro">Livro</option>
+            <option value="musica">Música</option>
+        </select>
+        <label for="gosto">Gosto (uma palavra):</label>
+        <input type="text" name="gosto" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <form action="/gostos" method="POST">
+        <button type="submit">Pular etapa</button>
+    </form>
+</body>
+</html>
