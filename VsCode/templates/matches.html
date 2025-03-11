@@ -63,18 +63,21 @@
             <h1>Matches Encontrados</h1>
         </div>
 
-        {% if quantidade_comum > 0 %}
-            <p><strong>{{ quantidade_comum }}</strong> gostos em comum!</p>
+        {% if matches %}
+            <p><strong>{{ matches[0].quantidade_comum }}</strong> gostos em comum!</p>
             <div class="match-list">
-                {% for tipo, gosto in gostos_comum %}
+                {% for match in matches %}
                     <div class="match-item">
-                        <h3>{{ tipo }}</h3>
-                        <p>{{ gosto }}</p>
+                        <h3>{{ match.nome1 }} e {{ match.nome2 }}</h3>
+                        <p>Quantos gostos em comum: {{ match.quantidade_comum }}</p>
+                        <p>Perfil 1: {{ match.nome1 }}, {{ match.idade1 }} anos</p>
+                        <p>Perfil 2: {{ match.nome2 }}, {{ match.idade2 }} anos</p>
+                        <hr>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p>Não há gostos em comum entre os usuários.</p>
+            <p>Não há matches ainda.</p>
         {% endif %}
 
         <form action="{{ url_for('index') }}" method="GET">

@@ -51,7 +51,20 @@ def criar_tabelas():
         )
     ''')
 
-    return conn_cadastro, cursor_cadastro, conn_gostos, cursor_gostos
+    # Tabela para armazenar os matches
+    conn_matches, cursor_matches = criar_conexao(caminho_cadastro)
+    cursor_matches.execute('''
+        CREATE TABLE IF NOT EXISTS matches (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario1_id INTEGER NOT NULL,
+            usuario2_id INTEGER NOT NULL,
+            quantidade_comum INTEGER NOT NULL,
+            FOREIGN KEY(usuario1_id) REFERENCES usuarios(id),
+            FOREIGN KEY(usuario2_id) REFERENCES usuarios(id)
+        )
+    ''')
+
+    return conn_cadastro, cursor_cadastro, conn_gostos, cursor_gostos, conn_matches, cursor_matches
 
 def verificar_email_existente(cursor, email):
     cursor.execute('SELECT id FROM usuarios WHERE email = ?', (email,))
@@ -146,12 +159,9 @@ def adicionar_gostos(usuario_id):
 # Página de resultados de matches
 @app.route('/matches', methods=['GET', 'POST'])
 def matches():
-    gostos_comum = []
-    quantidade_comum = 0
-
     if request.method == 'POST':
-        usuario1_id = request.form['usuario1_id']
-        usuario2_id = request.form['usuario2_id']
+        usuario1_id = int(request.form['usuario1_id'])
+        usuario2_id = int(request.form['usuario2_id'])
 
         # Buscar os gostos dos dois usuários
         conn = sqlite3.connect(caminho_gostos)
@@ -164,12 +174,40 @@ def matches():
         gostos_usuario2 = cursor.fetchall()
 
         # Comparar gostos dos usuários
-        gostos_comum = set(gostos_usuario1) & set(gostos_usuario2)
+        gostos_comum = []
+        for tipo, gosto in gostos_usuario1:
+            if (tipo, gosto) in gostos_usuario2:
+                gostos_comum.append((tipo, gosto))
+
         quantidade_comum = len(gostos_comum)
+
+        # Se houver match, armazenar no banco
+        if quantidade_comum > 0:
+            # Conectar à tabela de matches para registrar o match
+            conn_matches = sqlite3.connect(caminho_cadastro)
+            cursor_matches = conn_matches.cursor()
+            cursor_matches.execute('''
+                INSERT INTO matches (usuario1_id, usuario2_id, quantidade_comum)
+                VALUES (?, ?, ?)
+            ''', (usuario1_id, usuario2_id, quantidade_comum))
+            conn_matches.commit()
+            conn_matches.close()
 
         conn.close()
 
-    return render_template('matches.html', gostos_comum=gostos_comum, quantidade_comum=quantidade_comum)
+    # Buscar todos os matches armazenados
+    conn_matches = sqlite3.connect(caminho_cadastro)
+    cursor_matches = conn_matches.cursor()
+    cursor_matches.execute('''
+        SELECT m.usuario1_id, m.usuario2_id, m.quantidade_comum, u1.nome as nome1, u1.idade as idade1, u2.nome as nome2, u2.idade as idade2
+        FROM matches m
+        JOIN usuarios u1 ON m.usuario1_id = u1.id
+        JOIN usuarios u2 ON m.usuario2_id = u2.id
+    ''')
+    matches = cursor_matches.fetchall()
+    conn_matches.close()
+
+    return render_template('matches.html', matches=matches)
 
 if __name__ == '__main__':
     criar_tabelas()  # Cria as tabelas ao iniciar a aplicação
